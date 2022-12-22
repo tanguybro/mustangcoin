@@ -14,7 +14,7 @@ describe('Test MustangCoin', async () => {
     });
 
     it('Only minters can mint', async () => {
-        await expect(contract.connect(otherAccount).mint(1)).to.be.reverted;
+        await expect(contract.connect(otherAccount).mint(deployer.address, 1)).to.be.reverted;
     });
 
     it('Minter can mint', async () => {
@@ -22,13 +22,13 @@ describe('Test MustangCoin', async () => {
         const balanceBeforeMint = await contract.balanceOf(deployer.address);
         expect(balanceBeforeMint).to.equal(0);
 
-        await contract.connect(deployer).mint(utils.parseEther('1.0'));
+        await contract.connect(deployer).mint(deployer.address, utils.parseEther('1.0'));
 
         const balanceAfterMint = await contract.balanceOf(deployer.address);
         expect(balanceAfterMint).to.equal(utils.parseEther('1.0'));
     });
 
     it("Can't mint more than supply", async () => {
-        await expect(contract.connect(deployer).mint(utils.parseEther('1000000.0'))).to.be.reverted;
+        await expect(contract.connect(deployer).mint(deployer.address, utils.parseEther('1000000.0'))).to.be.reverted;
     });
 });

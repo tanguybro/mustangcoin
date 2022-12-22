@@ -10,10 +10,10 @@ contract MustangCoin is ERC20, Ownable {
 
     constructor() ERC20('MustangCoin', 'MTC') {}
 
-    function mint(uint _amount) external {
+    function mint(address _to, uint _amount) external {
         require(minters[msg.sender] == true, "You don't have the right to mint");
         require(totalSupply() + _amount <= SUPPLY, 'All the tokens are already mint');
-        _mint(msg.sender, _amount);
+        _mint(_to, _amount);
     }
 
     function addMinter(address _minter) external onlyOwner {
